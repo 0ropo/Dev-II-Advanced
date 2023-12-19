@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Formulaire de réservation</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="css/appMondial.css">
+        <script type="text/javascript" src="/eel.js"></script>
+        <script src="js/script.js"></script>
+
+    </head>
+
+
+
+<body onload="init()">
+<div class="bg"></div>
+<div class="bg-text">
+  <h2>Braine l'Alleud</h2>
+  <h1 style="font-size:50px">Au Bistro MAES Mondial</h1>
+  <p>Réservations</p>
+</div>
+<p>
+
+
+</p>
+    <div class="tab">
+        <button class="tablinks" id="reservation" onclick="changerTab(this)">Reservation</button>
+        <button class="tablinks" id="affichage" onclick="changerTab(this)">Affichage</button>
+    </div>
+
+    <section id="aff_reservation" class="tabcontent">
+        <div class="container">
+
+            <h2>Reservation</h2>
+        </div>
+
+
+            <form action="/submit_form" method="post" >
+                <label for="nom">Nom :</label>
+                <input type="text" id="nom" name="nom" placeholder="Votre nom" required><br><br>
+
+                <label for="telephone">Numéro de Téléphone :</label>
+                <input type="tel" id="telephone" name="tel" placeholder="Numéro de téléphone" required><br><br>
+
+                <label for="nb_personnes">Nombre de personnes :</label>
+                <input type="number" id="nb_personnes" name="nbPers" placeholder="Nombre de personnes" min="0" max="24" required><br><br>
+
+                <label for="nb_pmr">Nombre de personnes à mobilité réduite (PMR) :</label>
+                <input type="number" id="nb_pmr" name="nbPmr" placeholder="Nombre de PMR" min="0"><br><br>
+
+                <label for="nb_bebes">Nombre de bébés :</label>
+                <input type="number" id="nb_bebes" name="nbBb" placeholder="Nombre de bébés" min="0" max="5"><br><br>
+
+                <label for="date_heure">Date et Heure :</label>
+                <input type="datetime-local" id="date_heure" name="dateHeure" required><br><br>
+
+                <label for="type_cuisine">Type de cuisine préféré :</label>
+                <select id="type_cuisine" name="tc" required>
+                    <option value="eu">Européen</option>
+                    <option value="azy">Asiatique</option>
+                    <option value="as">Amérique du Sud</option>
+                    <option value="an">Amérique du Nord</option>
+                    <option value="af">Africain</option>
+                    <option value="VIP">VIP</option>
+                </select><br><br>
+
+                <input type="submit" value="Envoyer" >
+            </form>
+    </section>
+     <section id="aff_affichage" class="tabcontent">
+        <div class="table-container">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th onclick="triSurNom()">Nom</th>
+                  <th onclick="triSurTel()">Numéro de Téléphone</th>
+                    <th onclick="triSurTable()">Numéro de Table</th>
+                    <th onclick="triSurDate()">Date Heure</th>
+                    <th onclick="triSurCuisine()">Type de Cuisine</th>
+                  <th onclick="triSurPMR()">PMR</th>
+                  <th onclick="triSurBb()">Bébé</th>
+                    <th onclick="triSurClient()">Nombre de Personnes</th>
+                    <th onclick="triSurRes()">Numéro de reservation</th>
+                    <th>Supprimer</th>
+                </tr>
+              </thead>
+                <tbody>
+                </tbody>
+            </table>
+          </div>
+    </section>
+</body>
+
+</html>
