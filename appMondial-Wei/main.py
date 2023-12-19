@@ -15,27 +15,30 @@ from utils.fonctions.supprimerRes import supprimerRes
 import eel
 import json
 
+init = initial()
+data_file = init.fichier_sauvegarde
+
 def main():
     eel.init("web")
     eel.start("index.html")
 
 @eel.expose
 def importJSON():
-    with open("managers.json","r") as file:
+    with open(data_file, "r") as file:
         file = file.read()
         file = json.loads(file)
     return file
 
 @eel.expose
 def supprimerDuGUI(id):
-    with open("managers.json","r") as file:
+    with open(data_file, "r") as file:
         file = file.read()
         file = json.loads(file)
         managerRes = file["reservation_manager"]["reservations"]
         for res in managerRes:
             if res["idRes"] == id:
                 managerRes.remove(res)
-    with open("managers.json","w") as final:
+    with open(data_file, "w") as final:
         file = json.dumps(file)
         final.write(file)
         print("Suppression faite !")
@@ -45,8 +48,6 @@ def supprimerDuGUI(id):
 
 @eel.expose
 def mainGUI():
-
-    init = initial()
     # Utilisation des managers
     managerRes = init.reservation_manager
     managerTable = init.table_manager
@@ -70,7 +71,7 @@ def mainGUI():
         return 0
 
 
-    liste = attribution(liste,managerRes,managerTable,managerCuisine)
+    liste = attribution(liste, managerRes, managerTable, managerCuisine)
     if liste is False:
         print("Désolé, il n'y a plus de place !")
         return 1
@@ -80,7 +81,6 @@ def mainGUI():
     init.sauvegarder_managers()
 
 def dataBase():
-    init = initial()
 
     # Utilisation des managers
     managerRes = init.reservation_manager
@@ -107,7 +107,7 @@ def dataBase():
         managerTable.addTable(tableVip)
 
     managerTable.afficherTables()
-    eu= type_cuisine('eu','Europe','B')
+    eu = type_cuisine('eu','Europe','B')
     azi = type_cuisine('azy', 'Asie', 'B')
     ads = type_cuisine('as', 'Amérique du Sud', 'B')
     adn = type_cuisine('an', 'Amérique du Nord', 'B')
@@ -126,8 +126,6 @@ def afficherManager():
     pré: --
     post: --
     '''
-    init = initial()
-
     # Utilisation des managers
     managerRes = init.reservation_manager
     managerTable = init.table_manager
