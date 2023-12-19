@@ -52,7 +52,7 @@ async function affichage(column = "default"){
     dataDisplay = await eel.sort_reservations(column)();
     console.log(dataDisplay);
     let tbody = ""
-    listReservations.forEach(function(reservation){
+    dataDisplay.forEach(function(reservation){
         keys = Object.keys(reservation);
         let ligne = "<tr>"
         values = Object.values(reservation);

@@ -44,8 +44,6 @@ def supprimerDuGUI(id):
         print("Suppression faite !")
 
 
-
-
 @eel.expose
 def mainGUI():
     # Utilisation des managers
@@ -79,6 +77,33 @@ def mainGUI():
     ajouterReservation(liste,managerRes)
 
     init.sauvegarder_managers()
+
+@eel.expose
+def sort_reservations(column="default"):
+    file = importJSON()
+    reservations = file["reservation_manager"]["reservations"]
+    match column:
+        case "nom":
+            sorted_reservations = sorted(reservations, key=lambda x: x["nom"])
+        case "telNum":
+            sorted_reservations = sorted(reservations, key=lambda x: x["telNum"])
+        case "numTable":
+            sorted_reservations = sorted(reservations, key=lambda x: x["numTable"])
+        case "nbrClient":
+            sorted_reservations = sorted(reservations, key=lambda x: x["nbrClient"])
+        case "dateHeure":
+            sorted_reservations = sorted(reservations, key=lambda x: x["dateHeure"])
+        case "idCuisine":
+            sorted_reservations = sorted(reservations, key=lambda x: x["idCuisine"])
+        case "idRes":
+            sorted_reservations = sorted(reservations, key=lambda x: x["idRes"])
+        case "pmr":
+            sorted_reservations = sorted(reservations, key=lambda x: x["idRes"])
+        case "bb":
+            sorted_reservations = sorted(reservations, key=lambda x: x["bb"])
+        case "default":
+            sorted_reservations = reservations
+    return sorted_reservations
 
 def dataBase():
 
