@@ -12,15 +12,19 @@ from utils.classes.type_cuisine import type_cuisine
 from utils.fonctions.attrib import attribution
 from utils.fonctions.verifRes import verifRes
 from utils.fonctions.supprimerRes import supprimerRes
+from shell import ShellView
 import eel
 import json
+import threading
 
 init = initial()
 data_file = init.fichier_sauvegarde
 
+
 def main():
     eel.init("web")
     eel.start("index.html")
+
 
 @eel.expose
 def importJSON():
@@ -28,6 +32,7 @@ def importJSON():
         file = file.read()
         file = json.loads(file)
     return file
+
 
 @eel.expose
 def supprimerDuGUI(id):
@@ -51,9 +56,9 @@ def mainGUI():
     managerTable = init.table_manager
     managerService = init.typeServManager
     managerCuisine = init.typeCuisineManager
-    
+
     dataJS = eel.exportPython()()
-    liste = argParse(managerRes,dataJS)
+    liste = argParse(managerRes, dataJS)
 
     if liste == False:
         managerRes.affichage()
@@ -68,15 +73,15 @@ def mainGUI():
         print('python main.py -h')
         return 0
 
-
     liste = attribution(liste, managerRes, managerTable, managerCuisine)
     if liste is False:
         print("Désolé, il n'y a plus de place !")
         return 1
-    #print(liste)
-    ajouterReservation(liste,managerRes)
+    # print(liste)
+    ajouterReservation(liste, managerRes)
 
     init.sauvegarder_managers()
+
 
 @eel.expose
 def sort_reservations(column="default"):
@@ -105,44 +110,40 @@ def sort_reservations(column="default"):
             sorted_reservations = reservations
     return sorted_reservations
 
-def dataBase():
 
+def dataBase():
     # Utilisation des managers
     managerRes = init.reservation_manager
     managerTable = init.table_manager
     managerService = init.typeServManager
     managerCuisine = init.typeCuisineManager
 
-
-
-    serv1= TypeService('B','Basique',0)
+    serv1 = TypeService('B', 'Basique', 0)
     serv2 = TypeService('V', 'VIP', 1)
     managerService.addService(serv2)
     managerService.addService(serv1)
     managerService.afficherServices()
 
-
     for i in range(26):
-        table = Table(i+1, 4,'B')
+        table = Table(i + 1, 4, 'B')
         managerTable.addTable(table)
     table15 = Table(27, 15, 'B')
     managerTable.addTable(table15)
     for i in range(4):
-        tableVip = Table(i+28,4,'V')
+        tableVip = Table(i + 28, 4, 'V')
         managerTable.addTable(tableVip)
 
     managerTable.afficherTables()
-    eu = type_cuisine('eu','Europe','B')
+    eu = type_cuisine('eu', 'Europe', 'B')
     azi = type_cuisine('azy', 'Asie', 'B')
     ads = type_cuisine('as', 'Amérique du Sud', 'B')
     adn = type_cuisine('an', 'Amérique du Nord', 'B')
     afri = type_cuisine('af', 'Afrique', 'B')
     vip = type_cuisine('vip', 'VIP', 'V')
-    managerCuisine.addCuisine(eu,azi,ads,adn,afri,vip)
+    managerCuisine.addCuisine(eu, azi, ads, adn, afri, vip)
     managerCuisine.displayList()
 
     init.sauvegarder_managers()
-
 
 
 def afficherManager():
@@ -163,4 +164,7 @@ def afficherManager():
 
 
 if __name__ == '__main__':
+    shell_view = ShellView()
+    thread = threading.Thread(target=shell_view.cmdloop, args=(1,))
+    thread.start()
     main()
