@@ -137,5 +137,7 @@ def afficherManager():
     managerService.afficherServices()
     managerCuisine.displayList()
     managerTable.afficherTables()
+
+
 if __name__ == '__main__':
     main()

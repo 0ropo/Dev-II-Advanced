@@ -19,10 +19,9 @@ function retrieveData(event){
     return userData
 }
 
-async function affichage(){
-    dataDisplay = await eel.importJSON()();
+async function affichage(column = "default"){
+    dataDisplay = await eel.sort_reservations(column)();
     console.log(dataDisplay);
-    let listReservations = dataDisplay["reservation_manager"]["reservations"];
     let tbody = ""
     listReservations.forEach(function(reservation){
         keys = Object.keys(reservation);
@@ -39,9 +38,9 @@ async function affichage(){
     })
 }
 
-function supprimerDuTab(id){
+function supprimerDuTab(id,column='default'){
     eel.supprimerDuGUI(id);
-    affichage();
+    affichage(column);
 }
 
 function triSurNom(){
