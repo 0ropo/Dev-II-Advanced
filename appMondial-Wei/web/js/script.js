@@ -68,6 +68,31 @@ async function affichage(column = "default"){
     })
 }
 
+async function affichageFiltre(idCuisine){
+    dataDisplay = await eel.filter_cuisine(idCuisine)();
+    let tbody = "";
+    if (dataDisplay.length == 0) {
+        document.querySelector("tbody").innerHTML = tbody
+    }
+
+    else {
+        dataDisplay.forEach(function (reservation) {
+            keys = Object.keys(reservation);
+            let ligne = "<tr>"
+            values = Object.values(reservation);
+            values.forEach(function (elem) {
+                let td = "<td>" + elem + "</td>";
+                ligne += td;
+            });
+            ligne += `<td id="${reservation.idRes}" onclick='supprimerDuTab(${reservation.idRes})'>` + "<button>Supprimer</button>" + "</td>"
+            ligne += "</tr>"
+            tbody += ligne;
+            document.querySelector("tbody").innerHTML = tbody;
+        })
+    }
+}
+
+
 function supprimerDuTab(id,column='default'){
     eel.supprimerDuGUI(id);
     affichage(column);

@@ -68,6 +68,7 @@
     </section>
      <section id="aff_affichage" class="tabcontent">
         <div class="table-container">
+
             <table class="custom-table">
               <thead>
                 <tr>
@@ -86,6 +87,14 @@
                 <tbody>
                 </tbody>
             </table>
+            <select id="filtreCuisine" name="tc" onchange="affichageFiltre(this.value)" required>
+                    <option value="eu">Européen</option>
+                    <option value="azy">Asiatique</option>
+                    <option value="as">Amérique du Sud</option>
+                    <option value="an">Amérique du Nord</option>
+                    <option value="af">Africain</option>
+                    <option value="VIP">VIP</option>
+                </select><br><br>
           </div>
     </section>
 </body>

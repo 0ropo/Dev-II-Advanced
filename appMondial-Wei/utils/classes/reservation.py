@@ -204,17 +204,12 @@ class Reservation:
             pre: --
             post: Convertir les attributs de l'instance en un dictionnaire JSON
         """
-        return {
-            "nom": self.nom,
-            "telNum": self.telNum,
-            "numTable": self.numTable,
-            "dateHeure": self.dateHeure,
-            "idCuisine": self.idCuisine,
-            "pmr": self.pmr,
-            "bb": self.bb,
-            "nbrClient": self.nbrClient,
-            "idRes": self.idRes
-        }
+        keys = ["nom","telNum","numTable","dateHeure","idCuisine","pmr","bb","nbrClient","idRes"]
+        values = [self.nom,self.telNum,self.numTable,self.dateHeure,self.idCuisine,self.pmr,self.bb,self.nbrClient,self.idRes]
+        dico=map(lambda x,y: (x,y),keys,values)
+        dico = dict(dico)
+
+        return dico
 
     @classmethod
     def from_json(cls, data):
@@ -237,3 +232,4 @@ class Reservation:
             nbrClient=data.get("nbrClient"),
             idRes=data.get("idRes")
         )
+
