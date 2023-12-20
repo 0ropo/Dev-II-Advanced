@@ -23,7 +23,7 @@ data_file = init.fichier_sauvegarde
 
 def main():
     eel.init("web")
-    eel.start("index.html")
+    eel.start('index.html', mode="browser")
 
 
 @eel.expose
@@ -108,7 +108,17 @@ def sort_reservations(column="default"):
             sorted_reservations = sorted(reservations, key=lambda x: x["bb"])
         case "default":
             sorted_reservations = reservations
+
     return sorted_reservations
+
+
+@eel.expose
+def filter_cuisine(id_cuisine, args=None):
+    file = importJSON()
+    reservations = file["reservation_manager"]["reservations"]
+    filtered_reservations = filter(lambda x: x["idCuisine"] == id_cuisine, reservations)
+    print(filtered_reservations)
+    return list(filtered_reservations)
 
 
 def dataBase():
