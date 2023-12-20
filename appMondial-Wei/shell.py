@@ -21,11 +21,7 @@ class ShellView(cmd.Cmd):
     def do_afficher(self, arg):
         """Affiche les réservations"""
         self.get_data()
-        for res in self.data["reservation_manager"]["reservations"]:
-            print(f'ID: {res["idRes"]}, Nom: {res["nom"]}, Téléphone: {res["telNum"]}, '
-                  f'Nombre de personnes: {res["nbrClient"]}, Nombre de personnes à mobilité réduite: {res["pmr"]}, '
-                  f'Nombre de bébés: {res["bb"]}, Date et heure: {res["dateHeure"]}, '
-                  f'Type de cuisine: {res["idCuisine"]}')
+        self.print_res(self.data["reservation_manager"]["reservations"])
 
 
     def do_ajouter_reservation(self, arg):
@@ -78,11 +74,25 @@ class ShellView(cmd.Cmd):
             if res["idRes"] == int(arg):
                 self.data["reservation_manager"]["reservations"].remove(res)
         self.save_data()
+        print("Suppression faite !")
+    
+    def do_sort(self, sort_key):
+        """Trie les réservations par sort_key"""
+        self.get_data()
+        self.print_res(sorted(self.data["reservation_manager"]["reservations"], key=lambda x: x[str(sort_key)]))
+        self.save_data()
 
     def do_exit(self, arg):
         """Quitte le programme"""
         print("Merci d'avoir utilisé le programme !")
         exit()
+
+    def print_res(self, all_res):
+        for res in all_res:
+            print(f'ID: {res["idRes"]}, Nom: {res["nom"]}, Téléphone: {res["telNum"]}, '
+                  f'Nombre de personnes: {res["nbrClient"]}, Nombre de personnes à mobilité réduite: {res["pmr"]}, '
+                  f'Nombre de bébés: {res["bb"]}, Date et heure: {res["dateHeure"]}, '
+                  f'Type de cuisine: {res["idCuisine"]}')
 
     def get_data(self):
         with open(self.file, "r") as file:
@@ -94,7 +104,6 @@ class ShellView(cmd.Cmd):
         with open(self.file, "w") as file:
             file_data = json.dumps(self.data)
             file.write(file_data)
-            print("Suppression faite !")
 
 # Test
 """if __name__ == '__main__':
