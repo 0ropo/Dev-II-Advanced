@@ -48,6 +48,7 @@ function retrieveData(event){
     return userData
 }
 
+eel.expose(affichage)
 async function affichage(column = "default"){
     dataDisplay = await eel.sort_reservations(column)();
     console.log(dataDisplay);

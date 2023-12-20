@@ -79,8 +79,12 @@ class ShellView(cmd.Cmd):
     def do_sort(self, sort_key):
         """Trie les réservations par sort_key"""
         self.get_data()
-        self.print_res(sorted(self.data["reservation_manager"]["reservations"], key=lambda x: x[str(sort_key)]))
-        self.save_data()
+        all_reservations = self.data["reservation_manager"]["reservations"]
+        if sort_key not in list(all_reservations[0].keys()):
+            print("La clé de tri n'existe pas !")
+        else:
+            self.print_res(sorted(all_reservations, key=lambda x: x[str(sort_key)]))
+            self.save_data()
 
     def do_exit(self, arg):
         """Quitte le programme"""
