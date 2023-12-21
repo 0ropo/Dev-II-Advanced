@@ -5,6 +5,9 @@ from utils.classes.type_cuisine_manager import type_cuisine_manager
 import pickle
 from pathlib import Path
 import json
+import re
+import os
+
 class Initialisateur:
     """
     Cette classe sert à initialiser et gérer les différents gestionnaires (managers) pour les réservations,
@@ -19,7 +22,16 @@ class Initialisateur:
         typeCuisineManager (type_cuisine_manager): Gestionnaire des types de cuisine.
     """
     def __init__(self):
-        self.fichier_sauvegarde = 'managers.json'
+        fichier_sauvegarde_list = self.gen_backup_file()
+        while True:
+            try:
+                fichier = next(fichier_sauvegarde_list)
+                if os.path.exists(fichier) and os.path.isfile(fichier):
+                    self.fichier_sauvegarde = fichier
+                    break
+            except StopIteration:
+                self.fichier_sauvegarde = 'managers.json'
+                break
         self.reservation_manager = None
         self.table_manager = None
         self.typeServManager = None
@@ -84,4 +96,22 @@ class Initialisateur:
                 self.initialiser_managers()
         except (json.JSONDecodeError, FileNotFoundError):
             self.initialiser_managers()
+
+    @staticmethod
+    def get_fichier_sauvegarde(input_text):
+        """
+        :pre: input_text is a string to match with the regex pattern .*investigations_data.*\.bin
+        :post: return the input_text if input_text matches the regex pattern else return None
+        """
+        pattern = re.compile(r".*managers.*\.json")
+        return pattern.match(input_text)
+
+    def gen_backup_file(self):
+        """
+        :post: yield the name of the backup_file if it exists
+        """
+        db_dir = './'
+        for file in os.listdir(db_dir):
+            if self.get_fichier_sauvegarde(file):
+                yield f'{db_dir}/{file}'
 
