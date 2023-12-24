@@ -98,7 +98,7 @@ class Initialisateur:
             self.initialiser_managers()
 
     @staticmethod
-    def get_fichier_sauvegarde(input_text):
+    def is_fichier_sauvegarde(input_text):
         """
         :pre: input_text is a string to match with the regex pattern .*investigations_data.*\.bin
         :post: return the input_text if input_text matches the regex pattern else return None
@@ -112,6 +112,6 @@ class Initialisateur:
         """
         db_dir = './'
         for file in os.listdir(db_dir):
-            if self.get_fichier_sauvegarde(file):
+            if self.is_fichier_sauvegarde(file):
                 yield f'{db_dir}/{file}'
 
